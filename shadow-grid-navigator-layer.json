@@ -1,0 +1,146 @@
+{
+    "name": "Operation Shadow Grid — Detection Coverage",
+    "versions": {
+        "attack": "16",
+        "navigator": "5.1.0",
+        "layer": "4.5"
+    },
+    "domain": "enterprise-attack",
+    "description": "Detection coverage for Operation Shadow Grid — 14 techniques across 8 tactics. Red = detected with real attack data. Orange = staged rule (technique not exercised in this engagement). Yellow = tested, not vulnerable.",
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#205b8f",
+    "selectTechniquesAcrossTactics": false,
+    "legendItems": [
+        {"label": "Detected (real attack data)", "color": "#e60000"},
+        {"label": "Staged rule (not exercised)", "color": "#ff9900"},
+        {"label": "Tested, not vulnerable", "color": "#ffeb3b"}
+    ],
+    "techniques": [
+        {
+            "techniqueID": "T1046",
+            "tactic": "reconnaissance",
+            "color": "#e60000",
+            "comment": "Detection 1 — Nmap SYN scan detected via Zeek conn.log (129,038 REJ connections). Gobuster detected via Zeek http.log (404 floods).",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1190",
+            "tactic": "initial-access",
+            "color": "#e60000",
+            "comment": "Detection 2 — SQL injection payload (UNION SELECT) captured in Zeek http.log URI. Command injection POST requests captured in Apache syslog.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1059.004",
+            "tactic": "execution",
+            "color": "#e60000",
+            "comment": "Detection 2/15 — Command injection and reverse shell. POST requests to /vulnerabilities/exec/ in Apache syslog. Reverse shell closed with host-based syslog Detection 15.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1053.003",
+            "tactic": "persistence",
+            "color": "#e60000",
+            "comment": "Detection 4 — Cron backdoor (www-data reverse shell every 5 min) detected in Linux syslog cron execution events.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1505.003",
+            "tactic": "persistence",
+            "color": "#e60000",
+            "comment": "Detection 4 — Web shell (info.php?cmd=whoami) detected in both Zeek http.log and Apache syslog. curl/8.17.0 user-agent.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1078.003",
+            "tactic": "privilege-escalation",
+            "color": "#e60000",
+            "comment": "Detection 6 — Password reuse (www-data → sysadmin via su) detected in Linux auth syslog. Session opened uid=33 → uid=1000.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1548.003",
+            "tactic": "privilege-escalation",
+            "color": "#e60000",
+            "comment": "Detection 6 — Sudo escalation (sysadmin → root via sudo su -) detected in Linux auth syslog. COMMAND=/usr/bin/su -, uid=1000 → uid=0.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1021.002",
+            "tactic": "lateral-movement",
+            "color": "#e60000",
+            "comment": "Detection 8 — SMBExec lateral movement. Event 4624 Type 3 (NTLM, Administrator, Elevated_Token=Yes) + Event 4672 (SYSTEM privileges) + Zeek conn.log SMB to port 445.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1558.003",
+            "tactic": "credential-access",
+            "color": "#e60000",
+            "comment": "Detection 9 — Kerberoasting. Event 4769 with Ticket_Encryption_Type=0x17 (RC4) for Service_Name=svc_web, requested by j.smith.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1003.006",
+            "tactic": "credential-access",
+            "color": "#e60000",
+            "comment": "Detection 10 — DCSync. Event 4662 with DS-Replication-Get-Changes-All GUID {1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}, Account_Name=Administrator. Full domain hash dump.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1048.003",
+            "tactic": "exfiltration",
+            "color": "#e60000",
+            "comment": "Detection 13 — DNS tunneling exfiltration. 116 Zeek dns.log queries with long base64 subdomains to evil-corp.com, all SERVFAIL.",
+            "enabled": true,
+            "score": 100
+        },
+        {
+            "techniqueID": "T1558.004",
+            "tactic": "credential-access",
+            "color": "#ffeb3b",
+            "comment": "AS-REP Roasting — tested with impacket-GetNPUsers. No accounts vulnerable (all had Kerberos pre-authentication enabled). Documented as negative coverage.",
+            "enabled": true,
+            "score": 25
+        },
+        {
+            "techniqueID": "T1059.001",
+            "tactic": "execution",
+            "color": "#ff9900",
+            "comment": "Staged rule — PowerShell Abuse detection rule written and tuned. Technique not exercised in this engagement (attack chain used Unix shell, not PowerShell).",
+            "enabled": true,
+            "score": 50
+        },
+        {
+            "techniqueID": "T1110",
+            "tactic": "credential-access",
+            "color": "#ff9900",
+            "comment": "Staged rule — Brute Force detection rule written and tuned. Technique not exercised in this engagement (used password reuse, not brute force).",
+            "enabled": true,
+            "score": 50
+        },
+        {
+            "techniqueID": "T1021.001",
+            "tactic": "lateral-movement",
+            "color": "#ff9900",
+            "comment": "Staged rule — RDP Lateral Movement detection rule written and tuned. Technique not exercised (used SMBExec instead of RDP).",
+            "enabled": true,
+            "score": 50
+        }
+    ],
+    "gradient": {
+        "colors": ["#ffeb3b", "#ff9900", "#e60000"],
+        "minValue": 0,
+        "maxValue": 100
+    },
+    "sorting": 3
+}
