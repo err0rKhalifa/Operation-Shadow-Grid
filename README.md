@@ -8,6 +8,7 @@ A Splunk security-monitoring lab that simulates a 7-phase enterprise attack chai
 |---|---|
 | SIEM | Splunk Enterprise 9.2.1 |
 | Detection rules | 15 (12 active, 3 staged) |
+| Dashboards | 5 operational |
 | MITRE ATT&CK coverage | 14 techniques across 8 tactics |
 | Environment | 7-VM VMware Workstation range |
 | Domain | SHADOWGRID.LOCAL |
@@ -43,8 +44,9 @@ High-fidelity detections confirmed during this engagement include DCSync via Eve
 4. [Detection summary matrix](#detection-summary-matrix)
 5. [Detection gaps and recommendations](#detection-gaps-and-recommendations)
 6. [MITRE ATT&CK coverage map](#mitre-attck-coverage-map)
-7. [Tools used](#tools-used)
-8. [Lessons learned](#lessons-learned)
+7. [Dashboards](#dashboards)
+8. [Tools used](#tools-used)
+9. [Lessons learned](#lessons-learned)
 
 ---
 
@@ -559,6 +561,45 @@ The info.php web shell was only detected on access via HTTP, not on creation. Re
 | Credential Access | T1558.003 — Kerberoasting, T1003.006 — DCSync | Detection 9 / 10 |
 | Lateral Movement | T1021.002 — SMB/Admin Shares | Detection 8 |
 | Exfiltration | T1048.003 — Exfiltration Over DNS | Detection 13 |
+
+---
+
+## Dashboards
+
+Five operational dashboards were built in Splunk to support real-time monitoring and investigation across the environment.
+
+### SOC Overview
+
+High-level operational view showing event volume, alert counts, and host activity across all indexes.
+
+![SOC Overview](./screenshots/dashboard-soc-overview.png)
+
+### Network Security
+
+Network traffic analysis built on Zeek conn, http, and dns logs, with Suricata IDS alert correlation. Panels include connection timelines, protocol distribution, top destination ports, DNS query volume by host, DNS response codes, HTTP activity, and SMB lateral movement indicators.
+
+![Network Security - top](./screenshots/dashboard-network-security-1.png)
+![Network Security - bottom](./screenshots/dashboard-network-security-2.png)
+
+### Windows Security
+
+Windows event analysis covering authentication activity, privilege usage, and Sysmon process telemetry across DC01, WS01, and WS02.
+
+![Windows Security](./screenshots/dashboard-windows-security.png)
+
+### Incident Investigation
+
+Drilldown investigation dashboard driven by source IP input. Panels show network activity, targets contacted, HTTP requests, and DNS queries for a specified attacker IP, supporting rapid triage from a single pane.
+
+![Incident Investigation - top](./screenshots/dashboard-incident-investigation-1.png)
+![Incident Investigation - bottom](./screenshots/dashboard-incident-investigation-2.png)
+
+### Threat Hunt
+
+Threat hunting dashboard surfacing anomalous patterns across the environment — unusual process execution, suspicious authentication sequences, and cross-index correlation for proactive detection.
+
+![Threat Hunt - top](./screenshots/dashboard-threat-hunt-1.png)
+![Threat Hunt - bottom](./screenshots/dashboard-threat-hunt-2.png)
 
 ---
 
